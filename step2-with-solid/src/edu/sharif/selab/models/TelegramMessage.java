@@ -1,6 +1,6 @@
 package edu.sharif.selab.models;
 
-public class TelegramMessage extends Message{
+public class TelegramMessage extends Message {
     private String sourceUsername;
     private String targetUsername;
 

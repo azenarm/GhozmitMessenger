@@ -1,29 +1,38 @@
 package edu.sharif.selab.services;
 
+import edu.sharif.selab.models.Message;
 import edu.sharif.selab.models.EmailMessage;
-import edu.sharif.selab.models.SmsMessage;
-import edu.sharif.selab.models.TelegramMessage;
 
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class EmailMessageService implements MessageService{
+public class EmailMessageService implements MessageService {
     @Override
-    public void sendSmsMessage(SmsMessage smsMessage) {
-        //Empty Body
-    }
+    public void sendMessage(Message message) {
+        if (!(message instanceof EmailMessage)) {
+            throw new IllegalArgumentException("Invalid message type for Email service");
+        }
 
-    @Override
-    public void sendEmailMessage(EmailMessage emailMessage) {
-        if(validateEmailAddress(emailMessage.getSourceEmailAddress()) && validateEmailAddress(emailMessage.getTargetEmailAddress())){
-            System.out.println("Sending a SMS from " + emailMessage.getSourceEmailAddress() + " to " + emailMessage.getTargetEmailAddress() + " with content : " + emailMessage.getContent());
-        }else{
+        EmailMessage emailMessage = (EmailMessage) message;
+        if (validateEmailAddress(emailMessage.getSourceEmailAddress())
+                && validateEmailAddress(emailMessage.getTargetEmailAddress())) {
+            System.out.println("Sending an Email from " + emailMessage.getSourceEmailAddress() + " to "
+                    + emailMessage.getTargetEmailAddress() + " with content : " + emailMessage.getContent());
+        } else {
             throw new IllegalArgumentException("Email Address is Not Correct!");
         }
     }
 
     @Override
-    public void sendTelegramMessage(TelegramMessage telegramMessage) {
-        //Empty Body
+    public Message collectInput(Scanner scanner) {
+        EmailMessage emailMessage = new EmailMessage();
+        System.out.print("Enter source email : ");
+        emailMessage.setSourceEmailAddress(scanner.next());
+        System.out.print("Enter target email : ");
+        emailMessage.setTargetEmailAddress(scanner.next());
+        System.out.println("Write Your Message : ");
+        emailMessage.setContent(scanner.next());
+        return emailMessage;
     }
 
     public boolean validateEmailAddress(String email) {

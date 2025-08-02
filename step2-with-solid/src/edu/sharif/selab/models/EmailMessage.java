@@ -1,6 +1,6 @@
 package edu.sharif.selab.models;
 
-public class EmailMessage extends Message{
+public class EmailMessage extends Message {
     private String sourceEmailAddress;
     private String targetEmailAddress;
 
